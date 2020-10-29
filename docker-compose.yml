@@ -1,0 +1,19 @@
+version: "3.4"
+networks:
+  proxynetwork:
+    external: true
+services:
+  www:
+    image: koromerzhin/sveltejs:latest
+    volumes:
+      - ${PWD}/apps:/app
+    networks:
+      - proxynetwork
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.www-react.rule=Host(`react.lxc`, `www.react.lxc`)"
+        - "traefik.http.middlewares.wwwredirectregex.redirectregex.regex=^http://react.lxc/(.*)"
+        - "traefik.http.middlewares.wwwredirectregex.redirectregex.replacement=http://www.react.lxc/$${1}"
+        - "traefik.http.routers.www-react.entrypoints=web"
+        - "traefik.http.services.www-react.loadbalancer.server.port=80"

@@ -1,0 +1,26 @@
+{
+  "projectName": "template-sveltejs",
+  "projectOwner": "koromerzhin",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributorsPerLine": 7,
+  "commitConvention": "gitmoji",
+  "badgeTemplate": "[![All Contributors](https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=flat-square)](#contributors)",
+  "contributorTemplate": "<a href=\"<%= contributor.profile %>\"><img src=\"<%= contributor.avatar_url %>\" width=\"<%= options.imageSize %>px;\" alt=\"\"/><br /><sub><b><%= contributor.name %></b></sub></a>",
+  "contributors": [
+    {
+      "login": "koromerzhin",
+      "name": "Le TOULLEC Martial",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/308012?v=4",
+      "profile": "https://github.com/koromerzhin",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
+}

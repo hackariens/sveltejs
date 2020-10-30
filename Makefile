@@ -48,6 +48,7 @@ git-commit: node_modules ## Commit data
 
 git-check: node_modules ## CHECK before
 	@make contributors-check -i
+	@make linter -i
 	@git status
 
 install: node_modules apps/node_modules ## Installation

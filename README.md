@@ -7,7 +7,7 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/koromerzhin/template-sveltejs/graphs/commit-activity)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![Continuous Integration](https://github.com/koromerzhin/template-sveltejs/workflows/Continuous%20Integration/badge.svg?branch=develop)
@@ -24,6 +24,23 @@ Software:
 
 - make
 - npm
+- docker
+- repository koromerzhin/traefikproxy
+
+Config:
+
+docker swarm
+
+Hosts:
+
+- 127.0.0.1 sveltejs.lxc
+- 127.0.0.1 www.sveltejs.lxc
+
+## Récupérer les images docker
+
+``` sh
+make docker-image-pull
+```
 
 ## Install
 
@@ -41,6 +58,12 @@ make git-check
 
 ```sh
 make git-commit
+```
+
+## help
+
+``` sh
+make help
 ```
 
 ## Author

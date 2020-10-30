@@ -25,7 +25,7 @@
     "all-contributors-cli": "6.19.0",
     "gitmoji-changelog": "2.1.0",
     "license-checker": "25.0.1",
-    "markdownlint-cli": "^0.24.0",
+    "markdownlint-cli": "0.24.0",
     "readme-md-generator": "1.0.0",
     "semantic-git-commit-cli": "3.7.0"
   }

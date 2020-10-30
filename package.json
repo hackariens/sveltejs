@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Template de nouveau projet sveltejs",
   "scripts": {
-    "linter-markdown": "markdown",
+    "linter-markdown": "markdownlint",
     "contributors": "all-contributors",
     "changelog": "gitmoji-changelog",
     "readme": "readme",

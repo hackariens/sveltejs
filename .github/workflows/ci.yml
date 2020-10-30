@@ -1,7 +1,7 @@
 name: Continuous Integration
 on: [push]
 jobs:
-  environnement:
+  tests:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
@@ -25,45 +25,26 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-  install:
-    needs: environnement
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      fail-fast: false
-      matrix:
-        operating-system: [ubuntu-latest]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Install npm dependencies
         run: npm install
       - name: Install apps npm dependencies
         run: |
           cd apps
           npm install
-  linter:
-    needs: install
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      fail-fast: false
-      matrix:
-        operating-system: [ubuntu-latest]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: linter readme.md
         run: make linter-readme
-  build:
-    needs: install
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      fail-fast: false
-      matrix:
-        operating-system: [ubuntu-latest]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
       - name: Launch build
-        run: |
-          cd apps
-          npm run build
+        run: make build-ci
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: 'Docker swarm init'
+          run: docker swarm init --default-addr-pool 10.20.0.0/16
+        - name: 'Create proxy network'
+          run: make docker-create-network
+        - name: 'Build containers'
+          run: make docker-deploy
+        - name: 'Check running containers'
+          run: make docker-ls

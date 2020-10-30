@@ -11,8 +11,10 @@ help:
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
 apps/node_modules:
-	cd apps
-	npm install
+	cd apps && npm install
+
+build-ci: apps/node_modules ## BUILD
+	cd apps && npm run build
 
 contributors: node_modules ## Contributors
 	@npm run contributors
@@ -38,15 +40,8 @@ docker-image-pull: ## Get docker image
 docker-logs: ## logs docker
 	docker service logs -f --tail 100 --raw $(WWWFULLNAME)
 
-docker-service-ls: ## docker service
-	@docker service ls
-
-docker-stack-ps: ## docker stack ps
-	@docker stack ps $(STACK)
-
-docker-showstack: ## Show stack
-	@make docker-stack-ps -i
-	@make docker-service-ls -i
+docker-ls: ## docker service
+	@docker stack services $(STACK)
 
 git-commit: node_modules ## Commit data
 	npm run commit
@@ -55,8 +50,11 @@ git-check: node_modules ## CHECK before
 	@make contributors-check -i
 	@git status
 
-install: apps/node_modules ## Installation
+install: node_modules apps/node_modules ## Installation
 	@make docker-deploy -i
+
+linter: node_modules ## linter
+	@make linter-readme -i
 
 linter-readme: node_modules ## linter README.md
 	@npm run linter-markdown README.md

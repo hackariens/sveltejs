@@ -28,9 +28,7 @@ jobs:
       - name: Install npm dependencies
         run: npm install
       - name: Install apps npm dependencies
-        run: |
-          cd apps
-          npm install
+        run: make apps/node_modules
       - name: linter readme.md
         run: make linter-readme
       - name: Launch build

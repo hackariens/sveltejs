@@ -16,4 +16,4 @@ services:
         - "traefik.http.middlewares.wwwredirectregex.redirectregex.regex=^http://sveltejs.lxc/(.*)"
         - "traefik.http.middlewares.wwwredirectregex.redirectregex.replacement=http://www.sveltejs.lxc/$${1}"
         - "traefik.http.routers.www-sveltejs.entrypoints=web"
-        - "traefik.http.services.www-sveltejs.loadbalancer.server.port=80"
+        - "traefik.http.services.www-sveltejs.loadbalancer.server.port=8080"

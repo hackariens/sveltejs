@@ -43,6 +43,9 @@ docker-logs: ## logs docker
 docker-ls: ## docker service
 	@docker stack services $(STACK)
 
+docker-stop: ## docker stop
+	@docker stack rm $(STACK)
+
 git-commit: node_modules ## Commit data
 	npm run commit
 

@@ -10,22 +10,31 @@ WWWFULLNAME   := $(WWW).1.$$(docker service ps -f 'name=$(PRWWWOXY)' $(WWW) -q -
 help:
 	@grep -E '(^[a-zA-Z_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' | sed -e 's/\[32m##/[33m/'
 
-apps/node_modules:
+apps/package-lock.json: apps/package.json
 	cd apps && npm install
 
-build-ci: apps/node_modules ## BUILD
+apps/node_modules: apps/package-lock.json
+	cd apps && npm install
+
+package-lock.json: package.json
+	npm install
+
+node_modules: package-lock.json
+	npm install
+
+build-ci: ## BUILD
 	cd apps && npm run build
 
-contributors: node_modules ## Contributors
+contributors: ## Contributors
 	@npm run contributors
 
-contributors-add: node_modules ## add Contributors
+contributors-add: ## add Contributors
 	@npm run contributors add
 
-contributors-check: node_modules ## check Contributors
+contributors-check: ## check Contributors
 	@npm run contributors check
 
-contributors-generate: node_modules ## generate Contributors
+contributors-generate: ## generate Contributors
 	@npm run contributors generate
 
 docker-create-network: ## create network
@@ -46,10 +55,10 @@ docker-ls: ## docker service
 docker-stop: ## docker stop
 	@docker stack rm $(STACK)
 
-git-commit: node_modules ## Commit data
+git-commit: ## Commit data
 	npm run commit
 
-git-check: node_modules ## CHECK before
+git-check: ## CHECK before
 	@make contributors-check -i
 	@make linter -i
 	@git status
@@ -57,14 +66,11 @@ git-check: node_modules ## CHECK before
 install: node_modules apps/node_modules ## Installation
 	@make docker-deploy -i
 
-linter: node_modules ## linter
+linter: ## linter
 	@make linter-readme -i
 
-linter-readme: node_modules ## linter README.md
+linter-readme: ## linter README.md
 	@npm run linter-markdown README.md
-
-node_modules: ## npm install
-	npm install
 
 ssh: ## ssh
 	docker exec -ti $(WWWFULLNAME) /bin/bash

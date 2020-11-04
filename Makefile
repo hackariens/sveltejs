@@ -35,7 +35,7 @@ docker-deploy: ## deploy
 	docker stack deploy -c docker-compose.yml $(STACK)
 
 docker-image-pull: ## Get docker image
-	docker image pull koromerzhin/sveltejs:latest
+	docker image pull koromerzhin/nodejs:15.0.1-sveltejs
 
 docker-logs: ## logs docker
 	docker service logs -f --tail 100 --raw $(WWWFULLNAME)

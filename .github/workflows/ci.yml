@@ -10,24 +10,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Get npm cache directory
+      - name: Cache npm packages
         id: npm-cache
-        run: echo "::set-output name=dir::$(package-lock.json)"
-      - name: Cache npm dependencies
         uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            ${{ runner.os }}-node-
+      - name: Cache apps npm packages
+        id: npm-cache2
+        uses: actions/cache@v2
+        with:
+          path: apps/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/apps/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - name: Install npm dependencies
-        run: npm install
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: make node_modules
       - name: Install apps npm dependencies
+        if: steps.npm-cache2.outputs.cache-hit != 'true'
         run: make apps/node_modules
       - name: linter readme.md
         run: make linter-readme

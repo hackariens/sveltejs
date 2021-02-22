@@ -19,7 +19,7 @@ jobs:
       - name: 'Build containers'
         run: make docker deploy
       - name: 'Check running containers'
-        run: make docker-ls
+        run: make docker ls
       - name: Cache npm packages
         id: npm-cache
         uses: actions/cache@v2

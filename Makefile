@@ -53,7 +53,7 @@ ifeq ($(COMMAND_ARGS),create-network)
 else ifeq ($(COMMAND_ARGS),deploy)
 	@docker stack deploy -c docker-compose.yml $(STACK)
 else ifeq ($(COMMAND_ARGS),image-pull)
-	@docker image pull koromerzhin/nodejs:15.0.1-sveltejs
+	@docker image pull koromerzhin/nodejs:3.29.4-sveltejs
 else ifeq ($(COMMAND_ARGS),ls)
 	@docker stack services $(STACK)
 else ifeq ($(COMMAND_ARGS),stop)

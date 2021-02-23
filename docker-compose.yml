@@ -4,7 +4,7 @@ networks:
     external: true
 services:
   www:
-    image: koromerzhin/nodejs:15.0.1-sveltejs
+    image: koromerzhin/nodejs:3.29.4-sveltejs
     volumes:
       - ${PWD}/apps:/app
     networks:

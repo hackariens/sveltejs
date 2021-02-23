@@ -33,14 +33,7 @@ docker swarm
 
 Hosts:
 
-- 127.0.0.1 sveltejs.lxc
-- 127.0.0.1 www.sveltejs.lxc
-
-## Récupérer les images docker
-
-``` sh
-make docker-image-pull
-```
+- 127.0.0.1 sveltejs.traefik.me
 
 ## Install
 

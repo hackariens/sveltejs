@@ -12,8 +12,7 @@ services:
     deploy:
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.www-sveltejs.rule=Host(`sveltejs.lxc`, `www.sveltejs.lxc`)"
-        - "traefik.http.middlewares.wwwredirectregex.redirectregex.regex=^http://sveltejs.lxc/(.*)"
-        - "traefik.http.middlewares.wwwredirectregex.redirectregex.replacement=http://www.sveltejs.lxc/$${1}"
-        - "traefik.http.routers.www-sveltejs.entrypoints=web"
+        - "traefik.http.routers.sveltejs.rule=Host(`sveltejs.traefik.me`)"
+        - "traefik.http.routers.sveltejs-tls.tls.domains[0].main=sveltejs.traefik.me"
+        - "traefik.http.routers.sveltejs-tls.tls.domains[0].sans=sveltejs-*.traefik.me"
         - "traefik.http.services.www-sveltejs.loadbalancer.server.port=8080"

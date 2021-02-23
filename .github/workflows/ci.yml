@@ -14,8 +14,6 @@ jobs:
         run: docker swarm init --default-addr-pool 10.20.0.0/16
       - name: 'Create proxy network'
         run: make docker create-network
-      - name: 'image pull'
-        run: make docker image-pull
       - name: 'Build containers'
         run: make docker deploy
       - name: 'Check running containers'

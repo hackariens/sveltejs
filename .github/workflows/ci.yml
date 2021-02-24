@@ -22,13 +22,16 @@ jobs:
         if: steps.npm-cache.outputs.cache-hit != 'true'
         run: make node_modules
       - name: Cache apps npm packages
-        id: npm-cache2
+        id: apps-cache
         uses: actions/cache@v2
         with:
           path: apps/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/apps/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+      - name: Install apps npm dependencies
+        if: steps.apps-cache.outputs.cache-hit != 'true'
+        run: make apps/node_modules
       - name: 'Docker swarm init'
         run: docker swarm init --default-addr-pool 10.20.0.0/16
       - name: 'Create proxy network'
@@ -39,8 +42,5 @@ jobs:
         run: make sleep 60
       - name: 'docker ls'
         run: make docker ls
-      - name: Install apps npm dependencies
-        if: steps.npm-cache2.outputs.cache-hit != 'true'
-        run: make apps/node_modules
       - name: linter readme.md
         run: make linter readme

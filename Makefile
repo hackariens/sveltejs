@@ -68,9 +68,7 @@ else
 endif
 
 git: ## Scripts GIT
-ifeq ($(COMMAND_ARGS),commit)
-	@npm run commit
-else ifeq ($(COMMAND_ARGS),status-all)
+ifeq ($(COMMAND_ARGS),status-all)
 	@git submodule foreach git status
 else ifeq ($(COMMAND_ARGS),status)
 	@git status
@@ -89,7 +87,6 @@ else
 	@echo "---"
 	@echo "make git ARGUMENT"
 	@echo "---"
-	@echo "commit: Commit data"
 	@echo "check: CHECK before"
 	@echo "update: submodule update"
 	@echo "submodule: Git submodules"

@@ -33,7 +33,7 @@ docker swarm
 
 Hosts:
 
-- 127.0.0.1 sveltejs.traefik.me
+- sveltejs.traefik.me
 
 ## Install
 
@@ -44,13 +44,7 @@ make install
 ## after git add
 
 ```sh
-make git-check
-```
-
-## Replace git commit
-
-```sh
-make git-commit
+make git check
 ```
 
 ## help

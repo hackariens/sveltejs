@@ -7,7 +7,7 @@ WWW           := $(STACK)_www
 WWWFULLNAME   := $(WWW).1.$$(docker service ps -f 'name=$(PRWWWOXY)' $(WWW) -q --no-trunc | head -n1)
 
 
-SUPPORTED_COMMANDS := contributors docker git linter logs ssh
+SUPPORTED_COMMANDS := contributors docker git linter logs ssh sleep
 SUPPORTS_MAKE_ARGS := $(findstring $(firstword $(MAKECMDGOALS)), $(SUPPORTED_COMMANDS))
 ifneq "$(SUPPORTS_MAKE_ARGS)" ""
   COMMAND_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
@@ -46,6 +46,10 @@ else ifeq ($(COMMAND_ARGS),generate)
 else
 	@npm run contributors
 endif
+
+.PHONY: sleep
+sleep: ## sleep
+	@sleep  $(COMMAND_ARGS)
 
 docker: isdocker ## Scripts docker
 ifeq ($(COMMAND_ARGS),create-network)

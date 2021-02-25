@@ -3,6 +3,14 @@ networks:
   proxynetwork:
     external: true
 services:
+  exec:
+    image: koromerzhin/nodejs:3.29.4-sveltejs
+    volumes:
+      - ${PWD}/apps:/app
+    command: sh -c "npm install"
+    deploy:
+      labels:
+        - "traefik.enable=false"
   www:
     image: koromerzhin/nodejs:3.29.4-sveltejs
     volumes:

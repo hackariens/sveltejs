@@ -6,7 +6,7 @@ NETWORK       := proxynetwork
 
 WWW         := $(STACK)_www
 WWWFULLNAME := $(WWW).1.$$(docker service ps -f 'name=$(WWW)' $(WWW) -q --no-trunc | head -n1)
-WWWRUN      := docker run --rm -v ${PWD}/front:/app koromerzhin/nodejs:3.29.4-sveltejs
+WWWRUN      := docker run --rm -v ${PWD}/app:/app koromerzhin/nodejs:3.29.4-sveltejs
 
 
 SUPPORTED_COMMANDS := contributors docker git linter logs ssh sleep

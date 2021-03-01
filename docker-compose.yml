@@ -4,7 +4,7 @@ networks:
     external: true
 services:
   exec:
-    image: koromerzhin/nodejs:3.29.4-sveltejs
+    image: koromerzhin/nodejs:15.1.0
     volumes:
       - ${PWD}/apps:/app
     command: sh -c "npm install"
@@ -14,7 +14,7 @@ services:
       labels:
         - "traefik.enable=false"
   www:
-    image: koromerzhin/nodejs:3.29.4-sveltejs
+    image: koromerzhin/nodejs:15.1.0
     volumes:
       - ${PWD}/apps:/app
     networks:

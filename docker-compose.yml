@@ -1,6 +1,6 @@
 version: "3.4"
 networks:
-  proxynetwork:
+  proxylampy:
     external: true
 services:
   exec:
@@ -18,7 +18,7 @@ services:
     volumes:
       - ${PWD}/apps:/app
     networks:
-      - proxynetwork
+      - proxylampy
     deploy:
       labels:
         - "traefik.enable=true"

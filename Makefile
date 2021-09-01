@@ -10,6 +10,14 @@ ifneq "$(SUPPORTS_MAKE_ARGS)" ""
   $(eval $(COMMAND_ARGS):;@:)
 endif
 
+GREEN := \033[0;32m
+RED := \033[0;31m
+YELLOW := \033[0;33m
+NC := \033[0m
+NEED := ${GREEN}%-20s${NC}: %s\n
+MISSING :=${RED}ARGUMENT missing${NC}\n
+ARGUMENTS := make ${PURPLE}%s${NC} ${YELLOW}ARGUMENT${NC}\n
+
 install: node_modules ## Installation
 	@make docker deploy -i
 
@@ -19,10 +27,10 @@ ifeq ($(COMMAND_ARGS),all)
 else ifeq ($(COMMAND_ARGS),readme)
 	@npm run linter-markdown README.md
 else
-	@echo "ARGUMENT missing"
+	@printf "${MISSING}"
 	@echo "---"
-	@echo "make linter ARGUMENT"
+	@printf "${ARGUMENTS}" linter
 	@echo "---"
-	@echo "all: ## Launch all linter"
-	@echo "readme: linter README.md"
+	@printf "${NEED}" "all" "## Launch all linter"
+	@printf "${NEED}" "readme" "linter README.md"
 endif

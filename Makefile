@@ -1,6 +1,5 @@
 include make/general/Makefile
 STACK         := sveltejs
-NETWORK       := proxylampy
 include make/docker/Makefile
 
 SUPPORTED_COMMANDS := linter

@@ -3,18 +3,11 @@ networks:
   proxylampy:
     external: true
 services:
-  exec:
-    image: koromerzhin/nodejs:15.1.0
-    volumes:
-      - ${PWD}/apps:/app
-    command: sh -c "npm install"
-    deploy:
-      restart_policy:
-        condition: none
-      labels:
-        - "traefik.enable=false"
   www:
-    image: koromerzhin/nodejs:15.1.0
+    image: node:15.14.0
+    working_dir: /app
+    command: >
+      sh -c "npm install && npm run start"
     volumes:
       - ${PWD}/apps:/app
     networks:

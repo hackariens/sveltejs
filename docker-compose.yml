@@ -15,5 +15,7 @@ services:
     deploy:
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.sveltejs.rule=HostRegexp(`sveltejs.traefik.me`, `sveltejs.{ip:.*}.traefik.me`)"
+        - "traefik.http.routers.sveltejs.rule=Host(`sveltejs.traefik.me`)"
+        - "traefik.http.routers.sveltejs-tls.tls.domains[0].main=sveltejs.traefik.me"
+        - "traefik.http.routers.sveltejs.tls=true"
         - "traefik.http.services.www-sveltejs.loadbalancer.server.port=8080"

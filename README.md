@@ -35,6 +35,14 @@ Hosts:
 
 - sveltejs.traefik.me
 
+## Download
+
+```sh
+git clone git@github.com:koromerzhin/template-sveltejs.git template-sveltejs
+cd template-sveltejs
+git submodule update --init
+```
+
 ## Install
 
 ```sh

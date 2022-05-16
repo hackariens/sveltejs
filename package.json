@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/koromerzhin/template-sveltejs#readme",
   "dependencies": {
-    "koromerzhin-dependencies": "^1.3.0"
+    "koromerzhin-dependencies": "1.3.0"
   }
 }

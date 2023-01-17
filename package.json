@@ -1,27 +1,27 @@
 {
-  "name": "@koromerzhin/template-sveltejs",
+  "name": "@hackariens/sveltejs",
   "version": "1.0.0",
   "description": "Template de nouveau projet sveltejs",
   "scripts": {
-    "linter-markdown": "markdownlint",
-    "contributors": "all-contributors",
-    "readme": "readme",
-    "licenses": "license-checker",
-    "changelog": "changelog",
-    "jscpd": "jscpd apps/src"
+    "docker:deploy": "korojscommands docker_deploy",
+    "docker:getpull-image": "korojscommands docker_getpull-image",
+    "docker:ls": "korojscommands docker_ls",
+    "docker:waiting": "korojscommands docker_waiting --status running --container www",
+    "exec": "npm-run-all docker:getpull-image docker:deploy docker:waiting docker:ls",
+    "lint:markdown": "markdownlint README.md"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/koromerzhin/template-sveltejs.git"
+    "url": "git+https://github.com/hackariens/sveltejs.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/koromerzhin/template-sveltejs/issues"
+    "url": "https://github.com/hackariens/sveltejs/issues"
   },
-  "homepage": "https://github.com/koromerzhin/template-sveltejs#readme",
+  "homepage": "https://github.com/hackariens/sveltejs#readme",
   "dependencies": {
-    "koromerzhin-dependencies": "^1.3.0"
+    "korojscommands": "^1.2.7"
   }
 }

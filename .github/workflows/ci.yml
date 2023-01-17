@@ -6,38 +6,30 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ubuntu-latest]
+        operating-system: [ubuntu-20.04]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
       - name: Repository lampy
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: recursive
+          ref: 'v2.0'
           repository: koromerzhin/lampy
           path: lampy
-      - name: Cache npm packages
-        id: npm-cache
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
       - name: Install npm dependencies
-        if: steps.npm-cache.outputs.cache-hit != 'true'
-        run: make node_modules
+        run: npm install
+      - name: 'set .env'
+        run: 'cp .env.example .env'
       - name: 'Launch Lampy'
-        run: make lampy
+        run: cd lampy && npm run exec
       - name: 'Image pull'
-        run: make docker image-pull
+        run: npm run docker:getpull-image
       - name: 'Build containers'
-        run: make docker deploy
-      - name: 'sleep'
-        run: make sleep 60
-      - name: 'docker ls'
-        run: make docker ls
+        run: npm run docker:deploy
+      - name: 'Waiting'
+        run: npm run docker:waiting
       - name: linter readme.md
-        run: make linter readme
+        run: npm run lint:markdown

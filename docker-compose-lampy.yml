@@ -1,0 +1,15 @@
+version: "3.4"
+networks:
+  proxylampy:
+    external: true
+services:
+  www:
+    networks:
+      - proxylampy
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.sveltejs.rule=Host(`sveltejs.traefik.me`)"
+        - "traefik.http.routers.sveltejs-tls.tls.domains[0].main=sveltejs.traefik.me"
+        - "traefik.http.routers.sveltejs.tls=true"
+        - "traefik.http.services.www-sveltejs.loadbalancer.server.port=8080"

@@ -7,10 +7,10 @@
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/hackariens/sveltejs/graphs/commit-activity)
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
+![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-![Continuous Integration](https://github.com/hackariens/sveltejs/workflows/Continuous%20Integration/badge.svg?branch=develop)
+![Continuous Integration](https://github.com/hackariens/sveltejs/workflows/ci/badge.svg?branch=develop)
 
 </p>
 
@@ -22,7 +22,6 @@
 
 Software:
 
-- make
 - npm
 - docker
 - repository koromerzhin/lampy
@@ -38,27 +37,14 @@ Hosts:
 ## Download
 
 ```sh
-git clone git@github.com:hackariens/sveltejs.git template-sveltejs
-cd template-sveltejs
-git submodule update --init
+git clone --recurse-submodules git@github.com:hackariens/sveltejs.git sveltejs
+cd sveltejs
 ```
 
 ## Install
 
 ```sh
-make install
-```
-
-## after git add
-
-```sh
-make git check
-```
-
-## help
-
-``` sh
-make help
+npm install
 ```
 
 ## Author
@@ -99,11 +85,11 @@ Thanks goes to these wonderful people
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
-  <tr>
-    <td align="center"><a href="https://github.com/koromerzhin"><img src="https://avatars0.githubusercontent.com/u/308012?v=4" width="100px;" alt=""/><br /><sub><b>Le TOULLEC Martial</b></sub></a></td>
-    <td align="center"><a href="https://renovatebot.com"><img src="https://avatars0.githubusercontent.com/u/25180681?v=4" width="100px;" alt=""/><br /><sub><b>Renovate Bot</b></sub></a></td>
-    <td align="center"><a href="https://github.com/apps/dependabot"><img src="https://avatars.githubusercontent.com/in/29110?v=4" width="100px;" alt=""/><br /><sub><b>dependabot[bot]</b></sub></a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/koromerzhin"><img src="https://avatars0.githubusercontent.com/u/308012?v=4" width="100px;" alt=""/><br /><sub><b>Le TOULLEC Martial</b></sub></a></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-restore -->

@@ -41,10 +41,20 @@ git clone --recurse-submodules git@github.com:hackariens/sveltejs.git sveltejs
 cd sveltejs
 ```
 
+## Environnment
+
+Edit .env with .env.example
+
 ## Install
 
 ```sh
 npm install
+```
+
+## Launch
+
+``` sh
+npm run exec
 ```
 
 ## Author
@@ -59,10 +69,10 @@ npm install
 ## 🤝 Contributing
 
 Contributions, issues and feature requests are welcome!
-Feel free to check [issues page](https://github.com/hackariens/sveltejs/issues).
-You can also take a look at the [contributing guide](
-    https://github.com/hackariens/sveltejs/blob/develop/CONTRIBUTING.md
-    ).
+Feel free to check
+[issues page](https://github.com/hackariens/strapi/issues).
+You can also take a look at the
+[contributing guide](https://github.com/hackariens/strapi/blob/develop/CONTRIBUTING.md).
 
 ## Show your support
 
@@ -72,9 +82,8 @@ Give a ⭐️ if this project helped you!
 
 Copyright © 2019 [koromerzhin](https://github.com/koromerzhin).
 
-This project is [MIT](
-    https://github.com/hackariens/sveltejs/blob/develop/LICENSE
-    ) licensed.
+This project is
+[MIT](https://github.com/hackariens/strapi/blob/develop/LICENSE) licensed.
 
 ## ✨ Contributors
 

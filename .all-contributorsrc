@@ -43,6 +43,17 @@
         "code",
         "maintenance"
       ]
+    },
+    {
+      "login": "mend-bolt-for-github[bot]",
+      "name": "mend-bolt-for-github[bot]",
+      "avatar_url": "https://avatars.githubusercontent.com/in/16809?v=4",
+      "profile": "https://github.com/apps/mend-bolt-for-github",
+      "contributions": [
+        "bug",
+        "code",
+        "maintenance"
+      ]
     }
   ]
 }

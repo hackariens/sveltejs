@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/hackariens/sveltejs#readme",
   "dependencies": {
-    "korojscommands": "^1.2.10"
+    "korojscommands": "^1.2.11"
   }
 }

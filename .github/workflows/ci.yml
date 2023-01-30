@@ -27,6 +27,8 @@ jobs:
         run: cd lampy && npm run exec
       - name: 'Image pull'
         run: npm run docker:getpull-image
+      - name: 'create apps'
+        run: npm run create:apps
       - name: 'Build containers'
         run: npm run docker:deploy
       - name: 'Waiting'

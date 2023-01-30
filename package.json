@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Template de nouveau projet sveltejs",
   "scripts": {
+    "create:apps": "npm create svelte@latest apps",
     "docker:deploy": "korojscommands docker_deploy",
     "docker:getpull-image": "korojscommands docker_getpull-image",
     "docker:ls": "korojscommands docker_ls",
@@ -22,6 +23,6 @@
   },
   "homepage": "https://github.com/hackariens/sveltejs#readme",
   "dependencies": {
-    "korojscommands": "^1.2.11"
+    "korojscommands": "^1.2.12"
   }
 }

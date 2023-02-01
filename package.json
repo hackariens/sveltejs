@@ -25,6 +25,6 @@
   "homepage": "https://github.com/hackariens/sveltejs#readme",
   "dependencies": {
     "create-svelte": "^2.3.2",
-    "korojscommands": "^1.2.13"
+    "korojscommands": "^1.2.14"
   }
 }

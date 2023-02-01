@@ -35,3 +35,5 @@ jobs:
         run: npm run docker:waiting
       - name: linter readme.md
         run: npm run lint:markdown
+      - name: Cypress run
+        uses: cypress-io/github-action@v5

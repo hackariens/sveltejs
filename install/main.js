@@ -1,6 +1,6 @@
 import { create } from 'create-svelte';
 
-await create('apps', {
+await create('../apps', {
   name: 'apps',
   template: 'default', // or 'skeleton' or 'skeletonlib'
   types: 'typescript', // or 'typescript' or null;

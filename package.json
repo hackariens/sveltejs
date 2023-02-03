@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Template de nouveau projet sveltejs",
   "scripts": {
-    "create:apps": "node main.js",
+    "create:apps": "cd install && npm install && node main.js",
     "docker:deploy": "korojscommands docker_deploy",
     "docker:getpull-image": "korojscommands docker_getpull-image",
     "docker:ls": "korojscommands docker_ls",
@@ -11,7 +11,6 @@
     "exec": "npm-run-all docker:getpull-image docker:deploy docker:waiting docker:ls",
     "lint:markdown": "markdownlint README.md"
   },
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hackariens/sveltejs.git"
@@ -24,7 +23,6 @@
   },
   "homepage": "https://github.com/hackariens/sveltejs#readme",
   "dependencies": {
-    "create-svelte": "^2.3.2",
     "korojscommands": "^1.2.14"
   }
 }

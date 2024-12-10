@@ -32,9 +32,14 @@ jobs:
       - name: linter readme.md
         run: npm run lint:markdown
       - name: Cypress run
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
+      - name: Définir les variables de date et de branche
+        run: |
+          echo "CURRENT_DATE=$(date '+%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
+          echo "CURRENT_BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV
       - name: Archive screenshots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: screenshot
+          name: "sveltejs-${{ env.CURRENT_BRANCH }}_${{ env.CURRENT_DATE }}"
           path: cypress/
+          retention-days: 7

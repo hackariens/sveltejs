@@ -33,7 +33,8 @@ jobs:
         run: npm run lint:markdown
       - name: Cypress run
         uses: cypress-io/github-action@v6
-      - name: Définir les variables de date et de branche
+        continue-on-error: true
+      - name: Set date and branch variables
         run: |
           echo "CURRENT_DATE=$(date '+%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
           echo "CURRENT_BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV

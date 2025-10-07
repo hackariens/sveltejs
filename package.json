@@ -3,12 +3,6 @@
   "version": "1.0.0",
   "description": "Template de nouveau projet sveltejs",
   "scripts": {
-    "create:apps": "cd install && npm install && node main.js",
-    "docker:deploy": "korojscommands docker_deploy",
-    "docker:getpull-image": "korojscommands docker_getpull-image",
-    "docker:ls": "korojscommands docker_ls",
-    "docker:waiting": "korojscommands docker_waiting --status running --container www",
-    "exec": "npm-run-all docker:getpull-image docker:deploy docker:waiting docker:ls",
     "lint:markdown": "markdownlint README.md"
   },
   "repository": {
@@ -22,7 +16,17 @@
     "url": "https://github.com/hackariens/sveltejs/issues"
   },
   "homepage": "https://github.com/hackariens/sveltejs#readme",
-  "dependencies": {
-    "korojscommands": "^1.2.14"
+  "devDependencies": {
+    "all-contributors-cli": "^6.26.1",
+    "cypress": "^15.3.0",
+    "generate-changelog": "^1.8.0",
+    "gitmoji-changelog": "^2.3.0",
+    "jscpd": "^4.0.5",
+    "license-checker": "^25.0.1",
+    "markdownlint-cli": "^0.45.0",
+    "npm-run-all": "^4.1.5",
+    "readme-md-generator": "^1.0.0",
+    "semantic-git-commit-cli": "^3.7.0",
+    "yaml": "^2.8.1"
   }
 }

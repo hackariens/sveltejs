@@ -1,9 +1,0 @@
-version: "3.4"
-services:
-  www:
-    image: node:18.8.0
-    working_dir: /app
-    command: >
-      sh -c "npm install && npx vite dev --host"
-    volumes:
-      - ${PWD}/apps:/app:delegated

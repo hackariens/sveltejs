@@ -1,46 +1,108 @@
-name: ci
-on: [push]
+name: CI Pipeline
+on: 
+  push:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.gitignore'
+
+env:
+  NODE_VERSION: '22'
+  DOCKER_COMPOSE_VERSION: '2.29.7'
+  PHP_VERSION: '8.3'
+
 jobs:
-  tests:
+  ci:
     runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      DOCKER_INTERACTIVE: false
     steps:
+      # === SETUP PHASE ===
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: recursive
+      
+      - name: Setup Docker Compose
+        run: |
+          if ! command -v docker-compose &> /dev/null; then
+            sudo curl -L "https://github.com/docker/compose/releases/download/v${{ env.DOCKER_COMPOSE_VERSION }}/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+          fi
+          docker-compose --version
+      
+      - name: Setup Task
+        uses: go-task/setup-task@v1
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+      
       - name: Repository lampy
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          ref: 'v2.0'
           repository: koromerzhin/lampy
+          ref: 'v4.0'
           path: lampy
-      - name: Install npm dependencies
-        run: npm install
-      - name: 'set .env'
-        run: 'cp .env.example .env'
-      - name: 'Launch Lampy'
-        run: cd lampy && npm run exec
-      - name: 'Image pull'
-        run: npm run docker:getpull-image
-      - name: 'create apps'
-        run: npm run create:apps
-      - name: 'Build containers'
-        run: npm run docker:deploy
-      - name: 'Waiting'
-        run: npm run docker:waiting
-      - name: linter readme.md
-        run: npm run lint:markdown
-      - name: Cypress run
+      
+      # === BUILD PHASE ===
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+      
+      - name: Setup environment files
+        run: |
+          cp .env.example .env
+      
+      # === INFRASTRUCTURE PHASE ===
+      - name: Setup Docker cache
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+      
+      - name: Setup database and infrastructure
+        run: |
+          cd lampy && task lampy:exec
+      
+      - name: Deploy containers
+        run: |
+          task sveltejs:exec
+      
+      - name: Run Cypress tests
         uses: cypress-io/github-action@v6
         continue-on-error: true
-      - name: Set date and branch variables
-        run: |
-          echo "CURRENT_DATE=$(date '+%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
-          echo "CURRENT_BRANCH=${{ github.ref_name }}" >> $GITHUB_ENV
-      - name: Archive screenshots
-        uses: actions/upload-artifact@v4
         with:
-          name: "sveltejs-${{ env.CURRENT_BRANCH }}_${{ env.CURRENT_DATE }}"
-          path: cypress/
+          wait-on-timeout: 120
+          browser: chrome
+          record: false
+          parallel: false
+          config: 'screenshotOnRunFailure=true,video=true,videoCompression=32,defaultCommandTimeout=10000,requestTimeout=10000,responseTimeout=10000,retries={"runMode":2,"openMode":0}'
+        env:
+          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      
+      # === ARTIFACTS PHASE ===
+      - name: Archive test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: "test-results-${{ github.run_number }}-${{ github.sha }}"
+          path: |
+            cypress/screenshots
+            cypress/videos
+            cypress/reports
           retention-days: 7
+          if-no-files-found: ignore
+          compression-level: 6

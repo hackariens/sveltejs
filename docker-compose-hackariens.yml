@@ -1,6 +1,6 @@
 version: "3.4"
 networks:
-  proxylampy:
+  proxyhackariens:
     external: true
 services:
   www:
@@ -11,11 +11,11 @@ services:
     volumes:
       - ${PWD}/apps:/app:delegated
     networks:
-      - proxylampy
+      - proxyhackariens
     deploy:
       labels:
         - "traefik.enable=true"
-        - "traefik.http.routers.sveltejs.rule=Host(`sveltejs.traefik.me`)"
-        - "traefik.http.routers.sveltejs-tls.tls.domains[0].main=sveltejs.traefik.me"
+        - "traefik.http.routers.sveltejs.rule=Host(`sveltejs.hackariens.fr`)"
         - "traefik.http.routers.sveltejs.tls=true"
-        - "traefik.http.services.www-sveltejs.loadbalancer.server.port=5173"
+        - "traefik.http.routers.sveltejs.tls.certresolver=myresolver"
+        - "traefik.http.services.sveltejs.loadbalancer.server.port=5173"

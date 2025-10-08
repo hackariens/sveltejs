@@ -5,9 +5,6 @@ on:
   pull_request:
     branches: [main, develop]
 
-env:
-  DOCKER_COMPOSE_VERSION: '2.29.7'
-
 jobs:
   ci:
     runs-on: ubuntu-24.04
@@ -22,12 +19,8 @@ jobs:
           submodules: recursive
       
       - name: Setup Docker Compose
-        run: |
-          if ! command -v docker-compose &> /dev/null; then
-            sudo curl -L "https://github.com/docker/compose/releases/download/v${{ env.DOCKER_COMPOSE_VERSION }}/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
-            sudo chmod +x /usr/local/bin/docker-compose
-          fi
-          docker-compose --version
+        uses: docker/setup-compose-action@v1
+        run: docker-compose --version
       
       - name: Setup Task
         uses: go-task/setup-task@v1

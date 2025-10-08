@@ -20,7 +20,6 @@ jobs:
       
       - name: Setup Docker Compose
         uses: docker/setup-compose-action@v1
-        run: docker-compose --version
       
       - name: Setup Task
         uses: go-task/setup-task@v1

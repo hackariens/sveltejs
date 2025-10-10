@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/hackariens/sveltejs#readme",
   "devDependencies": {
-    "all-contributors-cli": "^3.1.1",
+    "all-contributors-cli": "^6.0.0",
     "cypress": "^15.3.0",
     "generate-changelog": "^1.8.0",
     "gitmoji-changelog": "^1.1.0",

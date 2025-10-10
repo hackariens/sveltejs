@@ -1,30 +1,25 @@
 # Welcome to @hackariens/sveltejs 👋
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000)
-
 ![Documentation](https://img.shields.io/badge/documentation-yes-brightgreen.svg)
-
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/hackariens/sveltejs/graphs/commit-activity)
-
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
-![Continuous Integration](https://github.com/hackariens/sveltejs/workflows/ci/badge.svg?branch=develop)
-
-</p>
+![Continuous Integration](https://github.com/hackariens/sveltejs/actions/workflows/ci.yml/badge.svg?branch=develop)
 
 > Template de nouveau projet sveltejs
 
 ## 🏠 [Homepage](https://github.com/hackariens/sveltejs#readme)
 
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
 ## Need
 
 Software:
 
-- npm
-- docker
-- repository koromerzhin/lampy
+- [task](https://taskfile.dev/)
+- [nodejs](https://nodejs.org/)
+- [lampy](https://github.com/koromerzhin/lampy)
 
 Config:
 
@@ -37,7 +32,7 @@ Hosts:
 ## Download
 
 ```sh
-git clone --recurse-submodules git@github.com:hackariens/sveltejs.git sveltejs
+git clone --recursive git@github.com:hackariens/sveltejs.git sveltejs
 cd sveltejs
 ```
 
@@ -45,22 +40,16 @@ cd sveltejs
 
 Edit .env with .env.example
 
-## Install
-
-```sh
-npm install
-```
-
 ## Create apps
 
 ```sh
-npm run create:apps
+task create:apps
 ```
 
 ## Launch
 
 ``` sh
-npm run exec
+task sveltejs:exec
 ```
 
 ## Author

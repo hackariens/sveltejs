@@ -36,7 +36,7 @@ jobs:
         with:
           submodules: recursive
           repository: koromerzhin/lampy
-          ref: 'v4.1'
+          ref: '4.2'
           path: lampy
 
       - name: Setup cache

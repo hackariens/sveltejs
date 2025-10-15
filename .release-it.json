@@ -7,6 +7,9 @@
   "github": {
     "release": true
   },
+  "npm": {
+    "publish": false
+  },
   "hooks": {
     "before:init": ["git pull", "task lint:all"],
     "after:bump": "npx auto-changelog -p"

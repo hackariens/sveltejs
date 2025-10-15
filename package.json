@@ -1,6 +1,6 @@
 {
   "name": "@hackariens/sveltejs",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Template de nouveau projet sveltejs",
   "scripts": {
     "lint:markdown": "markdownlint README.md",

@@ -1,0 +1,143 @@
+version: 3
+
+# Taskfile principal - Tâches globales et inclusions
+# Charge automatiquement les variables depuis le fichier .env s'il existe
+dotenv: [ '.env' ]
+
+includes:
+  docker: ./taskfiles/docker/Taskfile.yml
+  utils: ./taskfiles/utils/Taskfile.yml
+  env: ./taskfiles/env/Taskfile.yml
+  nodejs: ./taskfiles/nodejs/Taskfile.yml
+  download: ./taskfiles/download/Taskfile.yml
+
+vars:
+  # Variables avec valeurs par défaut depuis .env ou valeurs de fallback
+  PROJECT_NAME: '{{.PROJECT_NAME | default "sveltejs"}}'
+  PROJECT_VERSION: '1.0.0'
+  ENVIRONMENT: '{{.ENVIRONMENT | default "development"}}'
+  STACK_NAME: '{{.STACK | default "sveltejs"}}'
+  FOLDERLAMPY: '{{.FOLDERLAMPY | default "lampy"}}'
+  SERVERNAME: '{{.SERVERNAME | default "sveltejs.traefik.me"}}'
+  DOCKERCOMPOSEFILE: '{{.DOCKERCOMPOSEFILE | default "docker-compose.yml"}}'
+
+tasks:
+  default:
+    desc: "Affiche l'aide et les tâches disponibles"
+    silent: true
+    cmds:
+    - echo "🛠️  Collection de Taskfiles pour le développement"
+    - echo ""
+    - echo "Tâches globales disponibles :"
+    - task --list
+    - echo ""
+
+  lint:all:
+    desc: "Exécute tous les linters disponibles"
+    cmds:
+    - npm run lint:markdown
+
+  info:
+    desc: "Affiche les informations du projet avec les variables d'environnement"
+    silent: true
+    cmds:
+    - |
+      echo "🛠️  {{.PROJECT_NAME}} v{{.PROJECT_VERSION}} - Collection de Taskfiles"
+      echo "Environnement: {{.ENVIRONMENT}}"
+
+  help:
+    desc: "Affiche l'aide détaillée"
+    aliases: [ h ]
+    silent: true
+    cmds:
+    - task: default
+
+  sveltejs:getpull-image:
+    desc: "Télécharge les images Docker définies dans le docker-compose.yml"
+    silent: true
+    cmds:
+    - task: docker:images:pull
+      vars:
+        COMPOSE_FILE: "{{.DOCKERCOMPOSEFILE}}"
+
+  sveltejs:deploy:
+    desc: "Déploie les stacks Docker définies dans les fichiers docker-compose"
+    silent: true
+    cmds:
+    - task: docker:stack:deploy
+      vars:
+        COMPOSE_FILE: "{{.DOCKERCOMPOSEFILE}}"
+        STACK_NAME: "{{.STACK_NAME}}"
+
+  sveltejs:waiting:
+    desc: "Attend que les services soient opérationnels"
+    silent: true
+    cmds:
+    - task: docker:stack:check:containers:ready
+      vars:
+        CONTAINERS: "www"
+        STACK_NAME: "{{.STACK_NAME}}"
+
+  sveltejs:ls:
+    desc: "Liste les stacks et services Docker"
+    silent: true
+    cmds:
+    - task: docker:stack:services
+      vars:
+        STACK_NAME: "{{.STACK_NAME}}"
+
+  create:apps:
+    desc: "Crée une nouvelle application sveltejs dans le dossier apps"
+    silent: true
+    cmds:
+    - npx --yes sv create apps --template minimal --types jsdoc --no-add-ons --install npm
+    - task: update:allowedHosts
+
+  update:allowedHosts:
+    desc: "Met à jour automatiquement allowedHosts dans vite.config.js"
+    silent: true
+    cmds:
+    - |
+      VITE_CONFIG="apps/vite.config.js"
+      SERVERNAME="{{.SERVERNAME}}"
+
+      if [ -f "$VITE_CONFIG" ]; then
+        echo "📝 Configuration de allowedHosts dans $VITE_CONFIG..."
+        
+        if grep -q "allowedHosts" "$VITE_CONFIG"; then
+          echo "✅ allowedHosts déjà présent"
+          if ! grep -q "$SERVERNAME" "$VITE_CONFIG"; then
+            echo "➕ Ajout de $SERVERNAME"
+            # Ajoute simplement l'entrée (méthode basique mais fonctionnelle)
+            sed -i "s/'127.0.0.1'/'127.0.0.1',\\n\\t\\t\\t'$SERVERNAME'/" "$VITE_CONFIG"
+          else
+            echo "✅ $SERVERNAME déjà présent"
+          fi
+        else
+          echo "➕ Ajout de la configuration allowedHosts"
+          # Remplace plugins par plugins + server
+          sed -i "s/plugins: \[sveltekit()\]/plugins: [sveltekit()],\\n\\tserver: {\\n\\t\\tallowedHosts: [\\n\\t\\t\\t'$SERVERNAME',\\n\\t\\t\\t'localhost',\\n\\t\\t\\t'127.0.0.1'\\n\\t\\t]\\n\\t}/" "$VITE_CONFIG"
+        fi
+        echo "✅ Configuration terminée"
+      else
+        echo "❌ Fichier non trouvé"
+      fi
+
+  sveltejs:exec:
+    desc: "Exécute une commande dans un conteneur en cours d'exécution"
+    silent: true
+    cmds:
+    - task: sveltejs:getpull-image
+    - task: create:apps
+    - task: sveltejs:deploy
+    - task: sveltejs:waiting
+    - task: sveltejs:ls
+
+  sveltejs:bash:
+    desc: "Ouvre un shell bash dans le conteneur www"
+    silent: true
+    cmds:
+    - task: docker:stack:shell
+      vars:
+        STACK_NAME: "sveltejs"
+        SERVICE_NAME: "www"

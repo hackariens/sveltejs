@@ -1,35 +1,143 @@
-name: ci
-on: [push]
+name: CI/CD Pipeline
+on: 
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
 jobs:
-  tests:
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      fail-fast: false
-      matrix:
-        operating-system: [ubuntu-20.04]
+  lint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      DOCKER_INTERACTIVE: false
     steps:
+      # === SETUP PHASE ===
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
         with:
           submodules: recursive
+      
+      - name: Setup Docker Compose
+        uses: docker/setup-compose-action@v1
+      
+      - name: Setup Task
+        uses: go-task/setup-task@v1
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      - name: Setup cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: |
+            if [ ! -d node_modules ]; then
+                npm install
+            fi
+      
+      - name: Setup environment files
+        run: |
+          cp .env.example .env
+      
+      - name: lint all
+        run: task lint:all
+
+  launch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      DOCKER_INTERACTIVE: false
+    steps:
+      # === SETUP PHASE ===
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+      
+      - name: Setup Docker Compose
+        uses: docker/setup-compose-action@v1
+      
+      - name: Setup Task
+        uses: go-task/setup-task@v1
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+      
       - name: Repository lampy
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
         with:
           submodules: recursive
-          ref: 'v2.0'
           repository: koromerzhin/lampy
+          ref: '4.3'
           path: lampy
-      - name: Install npm dependencies
-        run: npm install
-      - name: 'set .env'
-        run: 'cp .env.example .env'
-      - name: 'Launch Lampy'
-        run: cd lampy && npm run exec
-      - name: 'Image pull'
-        run: npm run docker:getpull-image
-      - name: 'Build containers'
-        run: npm run docker:deploy
-      - name: 'Waiting'
-        run: npm run docker:waiting
-      - name: linter readme.md
-        run: npm run lint:markdown
+
+      - name: Setup cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: |
+            if [ ! -d node_modules ]; then
+                npm install
+            fi
+      
+      - name: Setup environment files
+        run: |
+          cp .env.example .env
+      
+      - name: Setup database and infrastructure
+        run: |
+          cd lampy && task lampy:exec
+      
+      - name: Deploy containers
+        run: |
+          task sveltejs:exec
+      
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        continue-on-error: true
+        with:
+          wait-on-timeout: 120
+          browser: chrome
+          record: false
+          parallel: false
+          config: 'screenshotOnRunFailure=true,video=true,videoCompression=32,defaultCommandTimeout=10000,requestTimeout=10000,responseTimeout=10000,retries={"runMode":2,"openMode":0}'
+        env:
+          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      
+      - name: Docker stack stop
+        if: always()
+        run: |
+          docker stack rm sveltejs
+          docker stack rm lampy
+      
+      # === ARTIFACTS PHASE ===
+      - name: Archive test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: "test-results-${{ github.run_number }}-${{ github.sha }}"
+          path: |
+            cypress/screenshots
+            cypress/videos
+            cypress/reports
+          retention-days: 7
+          if-no-files-found: ignore
+          compression-level: 6

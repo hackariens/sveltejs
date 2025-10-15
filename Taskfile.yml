@@ -32,6 +32,11 @@ tasks:
     - task --list
     - echo ""
 
+  lint:all:
+    desc: "Exécute tous les linters disponibles"
+    cmds:
+    - npm run lint:markdown
+
   info:
     desc: "Affiche les informations du projet avec les variables d'environnement"
     silent: true

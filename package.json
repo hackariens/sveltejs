@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Template de nouveau projet sveltejs",
   "scripts": {
-    "lint:markdown": "markdownlint README.md"
+    "lint:markdown": "markdownlint README.md",
+    "release": "release-it"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,8 @@
     "cypress": "^15.3.0",
     "jscpd": "^4.0.5",
     "markdownlint-cli": "^0.45.0",
+    "npm-run-all": "^4.1.5",
+    "release-it": "^19.0.5",
     "yaml": "^2.8.1"
   }
 }

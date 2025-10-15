@@ -6,7 +6,52 @@ on:
     branches: [main, develop]
 
 jobs:
-  ci:
+  lint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      DOCKER_INTERACTIVE: false
+    steps:
+      # === SETUP PHASE ===
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+      
+      - name: Setup Docker Compose
+        uses: docker/setup-compose-action@v1
+      
+      - name: Setup Task
+        uses: go-task/setup-task@v1
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      - name: Setup cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: |
+            if [ ! -d node_modules ]; then
+                npm install
+            fi
+      
+      - name: Setup environment files
+        run: |
+          cp .env.example .env
+      
+      - name: lint all
+        run: task lint:all
+
+  launch:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
@@ -76,6 +121,12 @@ jobs:
         env:
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      
+      - name: Docker stack stop
+        if: always()
+        run: |
+          docker stack rm sveltejs
+          docker stack rm lampy
       
       # === ARTIFACTS PHASE ===
       - name: Archive test results

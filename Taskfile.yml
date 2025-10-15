@@ -14,7 +14,6 @@ includes:
 vars:
   # Variables avec valeurs par défaut depuis .env ou valeurs de fallback
   PROJECT_NAME: '{{.PROJECT_NAME | default "sveltejs"}}'
-  PROJECT_VERSION: '1.0.0'
   ENVIRONMENT: '{{.ENVIRONMENT | default "development"}}'
   STACK_NAME: '{{.STACK | default "sveltejs"}}'
   FOLDERLAMPY: '{{.FOLDERLAMPY | default "lampy"}}'
@@ -42,7 +41,8 @@ tasks:
     silent: true
     cmds:
     - |
-      echo "🛠️  {{.PROJECT_NAME}} v{{.PROJECT_VERSION}} - Collection de Taskfiles"
+      export PROJECT_VERSION=$(jq -r .version package.json)
+      echo "🛠️  {{.PROJECT_NAME}} v$PROJECT_VERSION - Collection de Taskfiles"
       echo "Environnement: {{.ENVIRONMENT}}"
 
   help:

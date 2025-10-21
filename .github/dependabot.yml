@@ -1,0 +1,20 @@
+version: 2
+updates:
+  # 1️⃣ Dépendances Node.js (npm)
+  - package-ecosystem: "npm"
+    directory: "/" # Racine du projet
+    schedule:
+      interval: "weekly"  # Peut être daily / weekly / monthly
+    labels:
+      - "dependencies"
+      - "npm"
+    open-pull-requests-limit: 10
+
+  # 2️⃣ Dépendances Docker (docker-compose récupère les images du registry)
+  - package-ecosystem: "docker"
+    directory: "/" # Dependabot va scanner docker-compose.yml
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "docker"

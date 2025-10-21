@@ -1,19 +1,24 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
-
   "timezone": "Europe/Paris",
-  "schedule": ["before 8am on monday"],
-
+  "schedule": [
+    "before 8am on monday"
+  ],
   "packageRules": [
     {
       "description": "Mise à jour de la version Node dans .nvmrc",
-      "matchManagers": ["regex"],
-      "matchFiles": [".nvmrc"],
-      "matchPackageNames": ["node"],
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "matchFileNames": [
+        ".nvmrc"
+      ],
+      "matchPackageNames": [
+        "node"
+      ],
       "extractVersion": "^v?(?<version>\\d+\\.\\d+\\.\\d+)$",
       "depType": "engines",
       "versioning": "node",
@@ -22,14 +27,19 @@
     },
     {
       "description": "Mise à jour des dépendances npm",
-      "matchManagers": ["npm"],
+      "matchManagers": [
+        "npm"
+      ],
       "groupName": "npm dependencies updates",
       "automerge": false
     }
   ],
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["^\\.nvmrc$"],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.nvmrc$/"
+      ],
       "matchStrings": [
         "^(?<depName>node)\\s*v?(?<currentValue>\\d+\\.\\d+\\.\\d+)$"
       ],

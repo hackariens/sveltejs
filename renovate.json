@@ -10,7 +10,6 @@
 
   "packageRules": [
     {
-      // Mise à jour du fichier .nvmrc
       "description": "Mise à jour de la version Node dans .nvmrc",
       "matchManagers": ["regex"],
       "matchFiles": [".nvmrc"],
@@ -23,15 +22,12 @@
       "groupName": "Update Node.js version (.nvmrc)"
     },
     {
-      // Optionnel : Mettre à jour automatiquement les dépendances NPM
       "description": "Mise à jour des dépendances npm",
       "matchManagers": ["npm"],
       "groupName": "npm dependencies updates",
       "automerge": false
     }
   ],
-
-  // Active la gestion des fichiers via Regex Manager
   "regexManagers": [
     {
       "fileMatch": ["^\\.nvmrc$"],

@@ -20,8 +20,6 @@
     "cypress": "15.5.*",
     "dotenv": "17.2.*",
     "jscpd": "4.0.*",
-    "markdownlint-cli": "0.45.*",
-    "release-it": "19.0.*",
-    "yaml-lint": "1.7.*"
+    "release-it": "19.0.*"
   }
 }

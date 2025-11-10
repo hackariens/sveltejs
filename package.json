@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/hackariens/sveltejs#readme",
   "devDependencies": {
-    "cypress": "15.5.*",
+    "cypress": "15.6.*",
     "dotenv": "17.2.*",
     "jscpd": "4.0.*",
     "release-it": "19.0.*"

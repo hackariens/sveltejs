@@ -20,6 +20,6 @@
     "cypress": "15.5.*",
     "dotenv": "17.2.*",
     "jscpd": "4.0.*",
-    "release-it": "19.0.*"
+    "release-it": "19.1.*"
   }
 }

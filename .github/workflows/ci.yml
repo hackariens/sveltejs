@@ -19,7 +19,7 @@ jobs:
           submodules: recursive
       
       - name: Setup Docker Compose
-        uses: docker/setup-compose-action@v1
+        uses: docker/setup-compose-action@v2
       
       - name: Setup Task
         uses: go-task/setup-task@v1
@@ -64,7 +64,7 @@ jobs:
           submodules: recursive
       
       - name: Setup Docker Compose
-        uses: docker/setup-compose-action@v1
+        uses: docker/setup-compose-action@v2
       
       - name: Setup Task
         uses: go-task/setup-task@v1

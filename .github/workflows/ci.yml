@@ -22,7 +22,7 @@ jobs:
         uses: docker/setup-compose-action@v1
       
       - name: Setup Task
-        uses: go-task/setup-task@v1
+        uses: go-task/setup-task@v2
       
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -67,7 +67,7 @@ jobs:
         uses: docker/setup-compose-action@v1
       
       - name: Setup Task
-        uses: go-task/setup-task@v1
+        uses: go-task/setup-task@v2
       
       - name: Setup Node.js
         uses: actions/setup-node@v6

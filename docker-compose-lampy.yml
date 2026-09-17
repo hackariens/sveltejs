@@ -3,7 +3,7 @@ networks:
     external: true
 services:
   www:
-    image: node:24.21.0
+    image: node:26.8
     working_dir: /app
     command: >
       sh -c "npm install && npm run dev -- --open --host"

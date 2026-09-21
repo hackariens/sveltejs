@@ -7,7 +7,7 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     env:
       DOCKER_INTERACTIVE: false
@@ -52,7 +52,7 @@ jobs:
         run: task lint:all
 
   launch:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 60
     env:
       DOCKER_INTERACTIVE: false
